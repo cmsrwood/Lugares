@@ -1,7 +1,7 @@
 import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
-import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE } from "./config.js"
+import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
 
 const app = express()
 
@@ -14,10 +14,13 @@ const db = mysql.createConnection({
 
 app.use(express.json())
 app.use(cors())
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
-  });
+app.use(
+    cors({
+      origin: FRONTEND_URL,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
 
 app.get("/",(req,res)=>{
     res.json("Hello World from backend") 
@@ -91,5 +94,5 @@ app.put("/books/:id",(req,res)=>{
 })
 
 app.listen(BACKEND_PORT, ()=>{
-    console.log("El servidor backend se corre!")
+    console.log(`Backend server is running on port ${PORT}`);
 })   
