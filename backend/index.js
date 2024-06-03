@@ -94,5 +94,5 @@ app.put("/books/:id",(req,res)=>{
 })
 
 app.listen(BACKEND_PORT, ()=>{
-    console.log(`Backend server is running on port ${PORT}`);
+    console.log(`Backend server is running on port ${BACKEND_PORT} and frontend on ${FRONTEND_URL}`);
 })   
