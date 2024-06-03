@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import {BACKEND_URL} from '../config.js'
 
 
-export default function Books() {
+export default function Update() {
 
   const location = useLocation();
   const bookId = location.pathname.split("/")[2];
