@@ -31,8 +31,7 @@ export default function Books() {
         title: "Deleted!",
         text: "Your file has been deleted.",
         icon: "success"
-      });
-      navigate(0)
+      }).then (()=> navigate(0))
     }catch(err){
       console.log(err)
     }
