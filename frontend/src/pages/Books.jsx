@@ -52,7 +52,7 @@ export default function Books() {
                   <NumericFormat value={book.price}displayType={'text'}thousandSeparator=',' prefix={'COP '}/>
                 </span>
                 <div className="row">
-                  <Link className='btn btn-warning col' target='blank' to={`/update/${book.id}`}>Update</Link>
+                  <Link className='btn btn-warning col' to={`/update/${book.id}`}>Update</Link>
                   <Link className='btn btn-danger col' onClick={()=>handleDelete(book.id)}>Delete</Link>
                 </div>
               </div>
