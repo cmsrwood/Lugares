@@ -1,1 +1,1 @@
-BACKEND_URL = "https://backend-ml7i.onrender.com/"
+export const BACKEND_URL = "https://backend-ml7i.onrender.com/"
