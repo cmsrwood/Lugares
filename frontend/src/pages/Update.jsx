@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2'
+import {BACKEND_URL} from '../config.js'
+
 
 export default function Books() {
 
@@ -21,7 +23,7 @@ export default function Books() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get(`http://localhost:8800/books/${bookId}`);
+        const res = await axios.get(`${BACKEND_URL}/books/${bookId}`);
         setTitle(res.data.title);
         setDesc(res.data.desc);
         setCover(res.data.cover);
@@ -44,7 +46,7 @@ export default function Books() {
         price:price,
         id: params.id
     }
-      await axios.put(`http://localhost:8800/books/${bookId}`, book);
+      await axios.put(`${BACKEND_URL}/books/${bookId}`, book);
       navigate("/");
       Swal.fire("Book updated!", "", "success");
 

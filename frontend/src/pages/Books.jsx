@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2'
+import {BACKEND_URL} from '../config.js'
+
 
 export default function Books() {
 
@@ -13,7 +15,7 @@ export default function Books() {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try{
-        const res= await axios.get('http://localhost:8800/books')
+        const res= await axios.get(`${BACKEND_URL}/books`)
         setBooks(res.data)
       }catch(err){
         
@@ -24,7 +26,7 @@ export default function Books() {
 
   const handleDelete = async (id) => {
     try{
-      await axios.delete(`http://localhost:8800/books/${id}`)
+      await axios.delete(`${BACKEND_URL}/books/${id}`)
       Swal.fire({
         title: "Deleted!",
         text: "Your file has been deleted.",

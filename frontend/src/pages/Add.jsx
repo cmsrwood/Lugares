@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
-
+import {BACKEND_URL} from '../config.js'
 
 export default function Add() {
 
@@ -22,7 +22,7 @@ const handleChange = (e) =>{
 const handleClick = async (e) =>{
   e.preventDefault()
   try{
-    await axios.post("http://localhost:8800/books",book)
+    await axios.post(`${BACKEND_URL}/books`,book)
     navigate("/")
     Swal.fire("Book saved!", "", "success");
 
