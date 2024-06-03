@@ -2,6 +2,8 @@ import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 const app = express()
 
