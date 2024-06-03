@@ -15,7 +15,7 @@ export default function Books() {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try{
-        const res= await axios.get(`${BACKEND_URL}books`)
+        const res= await axios.get(`${BACKEND_URL}/books`)
         setBooks(res.data)
       }catch(err){
         
@@ -26,7 +26,7 @@ export default function Books() {
 
   const handleDelete = async (id) => {
     try{
-      await axios.delete(`${BACKEND_URL}books/${id}`)
+      await axios.delete(`${BACKEND_URL}/books/${id}`)
       Swal.fire({
         title: "Deleted!",
         text: "Your file has been deleted.",
