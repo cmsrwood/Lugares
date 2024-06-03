@@ -40,11 +40,11 @@ export default function Update() {
 
     try {
       const book={
+        id: params.id,
         title: title,
         desc: desc,
         cover: cover,
-        price:price,
-        id: params.id
+        price:price
     }
       await axios.put(`${BACKEND_URL}/books/${bookId}`, book);
       navigate("/");
