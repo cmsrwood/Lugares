@@ -34,8 +34,8 @@ app.get("/",(req,res)=>{
     res.json("Hello World from backend") 
 })
 
-app.get("/books",(req,res)=>{
-    db.query("SELECT * FROM books",(err,data)=>{
+app.get("/lugares",(req,res)=>{
+    db.query("SELECT * FROM lugares",(err,data)=>{
         if(err){
             return res.json(err)
         }else{
@@ -44,39 +44,38 @@ app.get("/books",(req,res)=>{
     })
 })
 
-app.post ("/books",(req,res)=>{
-    const q = "INSERT INTO books (`title`,`desc`,`price`,`cover`) VALUES (?)"
+app.post ("/lugares",(req,res)=>{
+    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`) VALUES (?)"
     const values = [
-        req.body.title,
+        req.body.nombre,
         req.body.desc,
-        req.body.price,
-        req.body.cover
+        req.body.link,
     ]
     db.query(q,[values],(err,data)=>{
         if(err){
             return res.json(err)
         }
-        return res.json("El libro se ha creado correctamente")
+        return res.json("El lugar se ha creado correctamente")
     })
 })
 
-app.delete("/books/:id",(req,res)=>{
-    const bookId = req.params.id
-    const q = "DELETE FROM books WHERE id = ?"
+app.delete("/lugares/:id",(req,res)=>{
+    const lugarId = req.params.id
+    const q = "DELETE FROM lugares WHERE id = ?"
 
-    db.query(q,[bookId],(err,data)=>{
+    db.query(q,[lugarId],(err,data)=>{
         if(err){
             return res.json(err)
         }
-        return res.json("El libro se ha eliminado correctamente")
+        return res.json("El lugar se ha eliminado correctamente")
     })
 })
 
-app.get("/books/:id",(req,res)=>{
-    const bookId = req.params.id
-    const q = "SELECT * FROM books WHERE id = ?"
+app.get("/lugares/:id",(req,res)=>{
+    const lugarId = req.params.id
+    const q = "SELECT * FROM lugares WHERE id = ?"
 
-    db.query(q,[bookId],(err,data)=>{
+    db.query(q,[lugarId],(err,data)=>{
         if(err){
             return res.json(err)
         }
@@ -84,20 +83,19 @@ app.get("/books/:id",(req,res)=>{
     })
 })
 
-app.put("/books/:id",(req,res)=>{
-    const bookId = req.params.id
-    const q = "UPDATE books SET `title` = ?, `desc` = ?, `price` = ?, `cover` = ? WHERE id = ?"
+app.put("/lugares/:id",(req,res)=>{
+    const lugarId = req.params.id
+    const q = "UPDATE lugares SET `nombre` = ?, `desc` = ?, `link` = ?  WHERE id = ?"
     const values = [
-        req.body.title,
+        req.body.nombre,
         req.body.desc,
-        req.body.price,
-        req.body.cover
+        req.body.link,
     ]
-    db.query(q,[...values,bookId],(err,data)=>{
+    db.query(q,[...values,lugarId],(err,data)=>{
         if(err){
             return res.json(err)
         }
-        return res.json("El libro se ha actualizado correctamente")
+        return res.json("El lugar se ha actualizado correctamente")
     })
 })
 

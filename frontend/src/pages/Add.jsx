@@ -6,25 +6,24 @@ import {BACKEND_URL} from '../config.js'
 
 export default function Add() {
 
-const [book,setBook] = useState({
-  title:"",
+const [lugares,setLugar] = useState({
+  nombre:"",
   desc:"",
-  cover:"",
-  price:""
+  link:"",
 })
 
 const navigate = useNavigate()
 
 const handleChange = (e) =>{
-  setBook(prev=>({...prev,[e.target.name]:e.target.value}))
+  setLugar(prev=>({...prev,[e.target.name]:e.target.value}))
 }
 
 const handleClick = async (e) =>{
   e.preventDefault()
   try{
-    await axios.post(`${BACKEND_URL}/books`,book)
+    await axios.post(`${BACKEND_URL}/lugares`,lugares)
     navigate("/")
-    Swal.fire("Book saved!", "", "success");
+    Swal.fire("Lugar guardado!", "", "success");
 
   }catch(err){
     console.log(err)
@@ -32,13 +31,12 @@ const handleClick = async (e) =>{
 }
   return (
     <div className='form text-center container p-5'>
-      <h1>Add New Book</h1>
+      <h1>Añade un nuevo lugar</h1>
       <form className='form-group'>
-        <input className='form-control' type="text" placeholder='title' onChange={handleChange} name='title'/>
-        <input className='form-control' type="text" placeholder='desc' onChange={handleChange} name='desc'/>
-        <input className='form-control' type="number" placeholder='price' onChange={handleChange} name='price'/>
-        <input className='form-control' type="file" placeholder='cover' onChange={handleChange} name='cover'/>
-        <button className='btn btn-success' onClick={handleClick}>Add</button>
+        <input className='form-control' type="text" placeholder='Nombre' onChange={handleChange} name='title'/>
+        <input className='form-control' type="text" placeholder='Descripcion' onChange={handleChange} name='desc'/>
+        <input className='form-control' type="number" placeholder='Precio' onChange={handleChange} name='price'/>
+        <button className='btn btn-success' onClick={handleClick}>Añadir</button>
       </form>
     </div>
   )
