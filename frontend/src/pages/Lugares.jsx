@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2'
-import {BACKEND_URL,FRONTEND_URL} from '../config.js'
+import {BACKEND_URL} from '../config.js'
 
 
 export default function Lugares() {
