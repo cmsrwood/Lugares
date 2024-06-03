@@ -14,21 +14,6 @@ const db = mysql.createConnection({
 
 app.use(express.json())
 app.use(cors())
-app.use(
-    cors({
-      origin: FRONTEND_URL,
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-  );
-
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-  );
 
 app.get("/",(req,res)=>{
     res.json("Hello World from backend") 

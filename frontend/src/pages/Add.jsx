@@ -6,7 +6,7 @@ import {BACKEND_URL} from '../config.js'
 
 export default function Add() {
 
-const [lugares,setLugar] = useState({
+const [lugar,setLugar] = useState({
   nombre:"",
   desc:"",
   link:"",
@@ -21,7 +21,7 @@ const handleChange = (e) =>{
 const handleClick = async (e) =>{
   e.preventDefault()
   try{
-    await axios.post(`${BACKEND_URL}/lugares`,lugares)
+    await axios.post(`${BACKEND_URL}/lugares`,lugar)
     navigate("/")
     Swal.fire("Lugar guardado!", "", "success");
 
@@ -35,7 +35,7 @@ const handleClick = async (e) =>{
       <form className='form-group'>
         <input className='form-control' type="text" placeholder='Nombre' onChange={handleChange} name='title'/>
         <input className='form-control' type="text" placeholder='Descripcion' onChange={handleChange} name='desc'/>
-        <input className='form-control' type="number" placeholder='Precio' onChange={handleChange} name='price'/>
+        <input className='form-control' type="text" placeholder='Precio' onChange={handleChange} name='price'/>
         <button className='btn btn-success' onClick={handleClick}>Añadir</button>
       </form>
     </div>
