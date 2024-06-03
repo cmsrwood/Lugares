@@ -1,14 +1,15 @@
 import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
+import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE } from "./config.js"
 
 const app = express()
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "test"
+    host : DB_HOST,
+    user : DB_USER,
+    password : DB_PASS,
+    database : DB_DATABASE
 })
 
 app.use(express.json())
@@ -85,6 +86,6 @@ app.put("/books/:id",(req,res)=>{
     })
 })
 
-app.listen(8800, ()=>{
+app.listen(BACKEND_PORT, ()=>{
     console.log("El servidor backend se corre!")
 })   
