@@ -38,26 +38,31 @@ export default function Lugares() {
   }
 
   return (
-    <div className='container text-center '>
+    <div className='container text-center p-5'>
       <h1 >Lugares</h1>
-      <Link to='/add'><button className='btn btn-success'><i className='bi'></i>Añadir nuevo lugar</button></Link>
+      <Link to='/add'><button className='btn btn-outline-success'><i className='bi'></i>Añadir nuevo lugar</button></Link>
       <div className="row row-cols-1 row-cols-md-4 g-4">
           {Lugares.map(lugar => (
-            <div class="card col mb-3" key={lugar.id} >
-              <div class="card-body">
-                <h5 class="card-title">{lugar.nombre}</h5>
-                <p class="card-text">{lugar.desc}</p>
-                <span>
-                  <NumericFormat value={lugar.link}displayType={'text'}thousandSeparator=',' prefix={'COP '}/>
-                </span>
-                <div className="row">
-                  <Link className='btn btn-warning col' to={`/update/${lugar.id}`}>Update</Link>
-                  <Link className='btn btn-danger col' onClick={()=>handleDelete(lugar.id)}>Delete</Link>
+            
+              <div class="card" key={lugar.id}>
+                <div class="card-header">
+                  {lugar.nombre}
                 </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <p>{lugar.desc}</p>  
+                    <Link to ={lugar.link}><button className='btn btn-outline-primary'>Ir</button></Link>
+                  </li>
+                  <li class="list-group-item">
+                    <Link className='btn btn-outline-warning' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
+                    <Link className='btn btn-outline-danger' onClick={()=>handleDelete(lugar.id)}><i className='bi bi-trash'></i> </Link>
+                  </li>
+                </ul>
               </div>
-              </div>
+                  
           ))}
       </div>
+      
     </div>
   )
 }
