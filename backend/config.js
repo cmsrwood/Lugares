@@ -5,4 +5,4 @@ export const DB_USER = process.env.DB_USER || "sql3711363"
 export const DB_PASS = process.env.DB_PASS || "tDBTvGErdY"
 export const DB_DATABASE = process.env.DB_DATABASE || "sql3711363"
 
-export const BACKEND_PORT = 8800
+export const BACKEND_PORT = process.env.PORT || 3000
