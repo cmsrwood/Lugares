@@ -23,7 +23,7 @@ export default function Books() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/books/${bookId}`);
+        const res = await axios.get(`${BACKEND_URL}books/${bookId}`);
         setTitle(res.data.title);
         setDesc(res.data.desc);
         setCover(res.data.cover);
@@ -46,7 +46,7 @@ export default function Books() {
         price:price,
         id: params.id
     }
-      await axios.put(`${BACKEND_URL}/books/${bookId}`, book);
+      await axios.put(`${BACKEND_URL}books/${bookId}`, book);
       navigate("/");
       Swal.fire("Book updated!", "", "success");
 
