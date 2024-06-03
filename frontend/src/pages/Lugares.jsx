@@ -39,7 +39,7 @@ export default function Lugares() {
 
   return (
     <div className='container text-center p-5'>
-      <h1 >Lugares</h1>
+      <h1 className='mb-5'>Lugares</h1>
       <Link to='/add'><button className='btn btn-outline-success'><i className='bi'></i>Añadir nuevo lugar</button></Link>
       <div className="row row-cols-1 row-cols-md-4 g-4">
           {Lugares.map(lugar => (
@@ -51,10 +51,10 @@ export default function Lugares() {
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
                     <p>{lugar.desc}</p>  
-                    <Link to ={lugar.link}><button className='btn btn-outline-primary'>Ir</button></Link>
+                    <Link target='_blank' to ={lugar.link}><button className='btn btn-outline-primary'>Ir</button></Link>
                   </li>
                   <li class="list-group-item">
-                    <Link className='btn btn-outline-warning' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
+                    <Link className='btn btn-outline-warning me-3' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
                     <Link className='btn btn-outline-danger' onClick={()=>handleDelete(lugar.id)}><i className='bi bi-trash'></i> </Link>
                   </li>
                 </ul>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
 import {BACKEND_URL} from '../config.js'
@@ -41,6 +41,7 @@ const handleClick = async (e) => {
         <input className='form-control' type="text" autoComplete='off' placeholder='Link' onChange={handleChange} name='link'/>
       </div>
         <button className='btn btn-outline-success' onClick={handleClick}>Añadir</button>
+        <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>
       </form>
     </div>
   )
