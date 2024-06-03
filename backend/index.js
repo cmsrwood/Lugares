@@ -22,6 +22,14 @@ app.use(
     })
   );
 
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
+
 app.get("/",(req,res)=>{
     res.json("Hello World from backend") 
 })
