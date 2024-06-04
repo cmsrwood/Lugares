@@ -10,7 +10,7 @@ const [lugar,setLugar] = useState({
   nombre:"",
   desc:"",
   link:"",
-  photos :""
+  photos :[]
 })
 
 const navigate = useNavigate()
@@ -21,17 +21,28 @@ const handleChange = (e) => {
 const handleClick = async (e) => {
   e.preventDefault();
   try {
-    await axios.post(`${BACKEND_URL}/lugares`, lugar);
-    await axios.post(`${BACKEND_URL}/images`, lugar.photo);
-    Swal.fire("Lugar guardado!", "", "success").then (() => navigate("/"));
+    var formData = new FormData();
+    var imagefile = document.querySelector('#photos');
+    formData.append("image", imagefile.files[0]);
+    axios.post(`${BACKEND_URL}/lugares`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    })
+    await axios.post(`${BACKEND_URL}/lugares`, lugar).then (()=>
+      Swal.fire("Lugar creado!", "", "success"),
+      navigate("/"),
+  )
   } catch (err) {
     console.log(err);
   }
 };
+
+
   return (
     <div className='form text-center container p-5'>
       <h1>Añade un nuevo lugar</h1>
-      <form className='form-group p-5' encType='multipart/form-data'>
+      <form className='form-group p-5' encType='multipart/form-data' onSubmit={handleClick} >
       <div class="mb-3">
         <input className='form-control' type="text" autoComplete='off' placeholder='Nombre' onChange={handleChange} name='nombre'/>
       </div>
@@ -42,9 +53,9 @@ const handleClick = async (e) => {
         <input className='form-control' type="text" autoComplete='off' placeholder='Link' onChange={handleChange} name='link'/>
       </div>
       <div class="mb-3">
-        <input className='form-control' type="file" multiple="true" accept='image/*' autoComplete='off' onChange={handleChange} name='photos'/>
+        <input className='form-control' type="file" multiple="true" accept='image/*' autoComplete='off' onChange={handleChange} id ='photos' name='photos'/>
       </div>
-        <button className='btn btn-outline-success' onClick={handleClick}>Añadir</button>
+        <button className='btn btn-outline-success' type='submit'>Añadir</button>
         <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>
       </form>
     </div>

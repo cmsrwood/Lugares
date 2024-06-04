@@ -2,27 +2,11 @@ import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
 import multer from 'multer'
-import fs from 'node:fs'
+import sharp from 'sharp'
 
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
 
 const app = express()
-
-const upload = multer({ dest: 'uploads/' })
-
-app.post ("/images", upload.array('photos', 3), (req,res) => {
-    req.files.map(file => {
-        saveImage(file)
-    })
-    res.send("ok")
-})
-
-function saveImage(file) {
-    const newPath = `./uploads/ola.jpg`
-    fs.renameSync(file.path, newPath)
-    console.log (file.path)
-    return newPath
-}
 
 const db = mysql.createConnection({
     host : DB_HOST,
@@ -33,6 +17,25 @@ const db = mysql.createConnection({
 
 app.use(express.json())
 app.use(cors())
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+        const ext = file.originalname.split(".").pop()
+        cb (null,`${Date.now()}.${ext}`)
+    }
+})
+
+const upload = multer({storage: storage})
+
+app.post ("/upload", upload.single("file"), async (req, res) => {
+    console.log(req.file)
+    res.send ("File has been uploaded")
+})
+
 
 app.get("/",(req,res)=>{
     res.json("Hello World from backend") 
@@ -48,8 +51,9 @@ app.get("/lugares",(req,res)=>{
     })
 })
 
-app.post ("/lugares",(req,res)=>{
-    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`) VALUES (?)"
+app.post ("/lugares", (req,res)=>{
+    console.log(req.body)
+    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`,`photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,
