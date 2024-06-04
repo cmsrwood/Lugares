@@ -31,10 +31,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
-app.post ("/upload", upload.single("file"), async (req, res) => {
-    console.log(req.file)
-    res.send ("File has been uploaded")
-})
+app.post('/upload', upload.array('photos'), (req, res) => {
+    const files = req.files;
+    console.log('FILES: ', files);
+    res.send('Archivos subidos con éxito');
+});
 
 
 app.get("/",(req,res)=>{
@@ -52,8 +53,8 @@ app.get("/lugares",(req,res)=>{
 })
 
 app.post ("/lugares", (req,res)=>{
-    console.log(req.body)
-    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`,`photos`) VALUES (?)"
+    console.log('LUGAR: ', req.body)
+    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,

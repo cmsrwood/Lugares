@@ -10,7 +10,7 @@ const [lugar,setLugar] = useState({
   nombre:"",
   desc:"",
   link:"",
-  photos :[]
+  photos:[]
 })
 
 const navigate = useNavigate()
@@ -21,18 +21,17 @@ const handleChange = (e) => {
 const handleClick = async (e) => {
   e.preventDefault();
   try {
-    var formData = new FormData();
-    var imagefile = document.querySelector('#photos');
-    formData.append("image", imagefile.files[0]);
-    axios.post(`${BACKEND_URL}/lugares`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
-    await axios.post(`${BACKEND_URL}/lugares`, lugar).then (()=>
-      Swal.fire("Lugar creado!", "", "success"),
-      navigate("/"),
-  )
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+
+    const formData = new FormData(form);
+    console.log(formData)
+    await axios.post(`${BACKEND_URL}/upload`, formData)
+    await axios.post(`${BACKEND_URL}/lugares`, lugar).then (()=> 
+      navigate("/")); 
+      Swal.fire("Lugar creado!", "", "success");
   } catch (err) {
     console.log(err);
   }
@@ -42,18 +41,18 @@ const handleClick = async (e) => {
   return (
     <div className='form text-center container p-5'>
       <h1>Añade un nuevo lugar</h1>
-      <form className='form-group p-5' encType='multipart/form-data' onSubmit={handleClick} >
+      <form id='form' className='form-group p-5' encType='multipart/form-data' onSubmit={handleClick} >
       <div class="mb-3">
-        <input className='form-control' type="text" autoComplete='off' placeholder='Nombre' onChange={handleChange} name='nombre'/>
+        <input className='form-control' type="text" autoComplete='off' placeholder='Nombre' onChange={handleChange} name='nombre' required/>
       </div>
       <div class="mb-3">
-        <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion' onChange={handleChange} name='desc'/>
+        <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion' onChange={handleChange} name='desc' required/>
       </div>
       <div class="mb-3">
         <input className='form-control' type="text" autoComplete='off' placeholder='Link' onChange={handleChange} name='link'/>
       </div>
       <div class="mb-3">
-        <input className='form-control' type="file" multiple="true" accept='image/*' autoComplete='off' onChange={handleChange} id ='photos' name='photos'/>
+        <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' onChange={handleChange} name='photos' required/>
       </div>
         <button className='btn btn-outline-success' type='submit'>Añadir</button>
         <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>
