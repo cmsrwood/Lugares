@@ -18,7 +18,7 @@ app.post ("/upload", upload.single('imagenPerfil'), (req, res) => {
 function saveImage(file) {
     const newPath = `./uploads/${file.originalname}`
     fs.writeFileSync(file.path, newPath)
-    console.log (file.mimetype)
+    console.log (file.path)
     return newPath
 }
 
