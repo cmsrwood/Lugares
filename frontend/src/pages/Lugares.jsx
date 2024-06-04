@@ -40,7 +40,7 @@ export default function Lugares() {
     <div className='container text-center p-5'>
       <h1 className='mb-5'>Lugares</h1>
       <Link to='/add'><button className='btn btn-outline-success'><i className='bi'></i>Añadir nuevo lugar</button></Link>
-      <div className="row row-cols-1 row-cols-md-4 g-4">
+      <div className="row row-cols-1 row-cols-md-4 g-4 mt-5">
           {Lugares.map(lugar => (
             
               <div class="card" key={lugar.id}>
