@@ -33,7 +33,7 @@ const upload = multer({storage: storage})
 
 app.post('/upload', upload.array('photos'), (req, res) => {
     const files = req.files;
-    console.log('FILES: ', files);
+    console.log('PHOTOS: ', files);
     res.send('Archivos subidos con éxito');
 });
 

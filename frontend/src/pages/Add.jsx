@@ -22,16 +22,12 @@ const handleClick = async (e) => {
   e.preventDefault();
   try {
     const form = document.querySelector('form');
-    form.addEventListener('submit', (event) => {
-    event.preventDefault();
-  });
-
     const formData = new FormData(form);
-    console.log(formData)
+    lugar.photos = ``
     await axios.post(`${BACKEND_URL}/upload`, formData)
     await axios.post(`${BACKEND_URL}/lugares`, lugar).then (()=> 
+      Swal.fire("Lugar creado!", "", "success"),
       navigate("/")); 
-      Swal.fire("Lugar creado!", "", "success");
   } catch (err) {
     console.log(err);
   }
@@ -52,7 +48,7 @@ const handleClick = async (e) => {
         <input className='form-control' type="text" autoComplete='off' placeholder='Link' onChange={handleChange} name='link'/>
       </div>
       <div class="mb-3">
-        <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' onChange={handleChange} name='photos' required/>
+        <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' name='photos' required/>
       </div>
         <button className='btn btn-outline-success' type='submit'>Añadir</button>
         <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>
