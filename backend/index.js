@@ -10,10 +10,11 @@ const app = express()
 
 const upload = multer({ dest: 'uploads/' })
 
-app.post ("/images", upload.single('imagenPerfil'), (req, res) => {
-    console.log(req.file)
-    saveImage(req.file)
-    res.send("Termina")
+app.post ("/images", upload.array('photos', 3), (req,res) => {
+    req.files.map(file => {
+        saveImage(file)
+    })
+    res.send("ok")
 })
 
 function saveImage(file) {
@@ -53,6 +54,7 @@ app.post ("/lugares",(req,res)=>{
         req.body.nombre,
         req.body.desc,
         req.body.link,
+        req.body.photos
     ]
     db.query(q,[values],(err,data)=>{
         if(err){
