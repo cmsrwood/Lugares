@@ -1,16 +1,14 @@
 import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
+import multer from 'multer'
+import fs from 'node:fs'
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
-const multer = require('multer')
-const fs = require('node:fs')
+
+const app = express()
+
 const upload = multer({ dest: 'uploads/' })
 
-app.post ("/upload", upload.single("file"), (req, res) => {
-    console.log(req.file)
-    saveImage(req.file)
-    res.json(req.file)
-})
 
 function saveImage(file) {
     const newPath = `./uploads/${file.originalname}`
@@ -19,7 +17,12 @@ function saveImage(file) {
 }
 
 
-const app = express()
+
+app.post ("/images/single", upload.single("image"), (req, res) => {
+    console.log(req.file)
+    saveImage(req.file)
+    res.json(req.file)
+})
 
 const db = mysql.createConnection({
     host : DB_HOST,
