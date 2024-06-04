@@ -3,21 +3,22 @@ import mysql from 'mysql'
 import cors from 'cors'
 import multer from 'multer'
 import fs from 'node:fs'
+
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
 
 const app = express()
 
 const upload = multer({ dest: 'uploads/' })
 
-app.post ("/upload", upload.single('imagenPerfil'), (req, res) => {
+app.post ("/images", upload.single('imagenPerfil'), (req, res) => {
     console.log(req.file)
     saveImage(req.file)
     res.send("Termina")
 })
 
 function saveImage(file) {
-    const newPath = `./uploads/${file.originalname}`
-    fs.writeFileSync(file.path, newPath)
+    const newPath = `./uploads/ola.jpg`
+    fs.renameSync(file.path, newPath)
     console.log (file.path)
     return newPath
 }

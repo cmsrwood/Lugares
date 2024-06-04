@@ -10,6 +10,7 @@ const [lugar,setLugar] = useState({
   nombre:"",
   desc:"",
   link:"",
+  images :""
 })
 
 const navigate = useNavigate()
@@ -21,6 +22,7 @@ const handleClick = async (e) => {
   e.preventDefault();
   try {
     await axios.post(`${BACKEND_URL}/lugares`, lugar);
+    await axios.post(`${BACKEND_URL}/images`, lugar.images);
     navigate("/");
     Swal.fire("Lugar guardado!", "", "success");
   } catch (err) {
@@ -39,6 +41,9 @@ const handleClick = async (e) => {
       </div>
       <div class="mb-3">
         <input className='form-control' type="text" autoComplete='off' placeholder='Link' onChange={handleChange} name='link'/>
+      </div>
+      <div class="mb-3">
+        <input className='form-control' type="file" multiple="multiple" autoComplete='off' placeholder='Images' onChange={handleChange} name='images'/>
       </div>
         <button className='btn btn-outline-success' onClick={handleClick}>Añadir</button>
         <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>
