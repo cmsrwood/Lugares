@@ -19,22 +19,6 @@ app.use(express.json())
 app.use(cors())
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '../frontend/public/images')
-    },
-    filename: (req, file, cb) => {
-        cb (null,`${file.originalname}`)
-    }
-})
-
-const upload = multer({storage: storage})
-
-app.post('/upload', upload.array('photos'), (req, res) => {
-    const files = req.files;
-    console.log('PHOTOS: ', files);
-    res.send('Archivos subidos con éxito');
-});
 
 
 app.get("/",(req,res)=>{
@@ -50,6 +34,25 @@ app.get("/lugares",(req,res)=>{
         }
     })
 })
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../frontend/public/images')
+    },
+    filename: (req, file, cb) => {
+        const ext = file.originalname.split(".").pop()
+        cb (null,`${Date.now()}.${ext}`)
+    }
+})
+
+const upload = multer({storage: storage})
+
+app.post('/upload', upload.array('photos'), (req, res) => {
+    const files = req.files;
+    console.log('PHOTOS: ', files);
+    res.send('Archivos subidos con éxito');
+});
+
 
 app.post ("/lugares", (req,res)=>{
     console.log('LUGAR: ', req.body)
