@@ -9,20 +9,18 @@ const app = express()
 
 const upload = multer({ dest: 'uploads/' })
 
+app.post ("/upload", upload.single('imagenPerfil'), (req, res) => {
+    console.log(req.file)
+    saveImage(req.file)
+    res.send("Termina")
+})
 
 function saveImage(file) {
     const newPath = `./uploads/${file.originalname}`
-    fs.writeFileSync(file.Path, newPath)
+    fs.writeFileSync(file.path, newPath)
+    console.log (file.mimetype)
     return newPath
 }
-
-
-
-app.post ("/images/single", upload.single("image"), (req, res) => {
-    console.log(req.file)
-    saveImage(req.file)
-    res.json(req.file)
-})
 
 const db = mysql.createConnection({
     host : DB_HOST,
