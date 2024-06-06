@@ -40,8 +40,9 @@ const storage = multer.diskStorage({
         cb(null, '../frontend/public/images')
     },
     filename: (req, file, cb) => {
+        const name = req.body.nombre.replace(/ /g, '_');
         const ext = file.originalname.split(".").pop()
-        cb (null,`${Date.now()}.${ext}`)
+        cb(null, `${name}_${Date.now()}.${ext}`);
     }
 })
 

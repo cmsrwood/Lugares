@@ -23,7 +23,7 @@ const handleClick = async (e) => {
   try {
     const form = document.querySelector('form');
     const formData = new FormData(form);
-    lugar.photos = (formData.getAll('photos')).map((photo) => photo.name).toString
+    lugar.photos = (formData.getAll('photos')).map((photo) => photo.name).toString()
     await axios.post(`${BACKEND_URL}/upload`, formData)
     await axios.post(`${BACKEND_URL}/lugares`, lugar).then (()=> 
       Swal.fire("Lugar creado!", "", "success"),
