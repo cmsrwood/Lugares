@@ -50,7 +50,7 @@ export default function Lugares() {
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
                     <p>{lugar.desc}</p>  
-                    <Link target='_blank' to ={lugar.link}><button className='btn btn-outline-primary'>Ir</button></Link>
+                    <Link target='_blank' to ={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary'>Ir</button></Link>
                   </li>
                   <li class="list-group-item">
                     <Link className='btn btn-outline-warning me-3' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>

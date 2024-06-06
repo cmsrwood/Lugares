@@ -48,21 +48,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
-app.post('/upload', upload.array('photos'), (req, res) => {
+app.post('/lugares', upload.array('photos'), (req, res) => {
     const files = req.files;
     console.log('PHOTOS: ', files);
-    res.send('Archivos subidos con éxito');
-});
-
-
-app.post ("/lugares", (req,res)=>{
     console.log('LUGAR: ', req.body)
-    const q = "INSERT INTO lugares (`nombre`,`desc`,`link`, `photos`) VALUES (?)"
+    const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,
-        req.body.link,
-        req.body.photos
+        req.files ? req.files.map(file => file.filename).toString() : null
     ]
     db.query(q,[values],(err,data)=>{
         if(err){
@@ -71,6 +65,9 @@ app.post ("/lugares", (req,res)=>{
         return res.json("El lugar se ha creado correctamente")
     })
 })
+
+
+    
 
 app.delete("/lugares/:id",(req,res)=>{
     const lugarId = req.params.id
@@ -108,7 +105,7 @@ app.put("/lugares/:id",(req,res)=>{
         if(err){
             return res.json(err)
         }
-        return res.json("El lugar se ha actualizado correctamente")
+        res.json("El lugar se ha actualizado correctamente")
     })
 })
 
