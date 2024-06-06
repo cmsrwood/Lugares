@@ -8,47 +8,40 @@ import {BACKEND_URL} from '../config.js'
 export default function Update() {
 
   const location = useLocation();
-  const bookId = location.pathname.split("/")[2];
+  const lugarId = location.pathname.split("/")[2];
   const params = useParams();
   
 
   // Hooks
-  const [title, setTitle]=useState('')
+  const [nombre, setNombre]=useState('')
   const [desc, setDesc]=useState('')
-  const [cover, setCover]=useState('')
-  const [price, setPrice]=useState('')
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getBook = async () => {
+    const getLugar = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/books/${bookId}`);
-        setTitle(res.data.title);
+        const res = await axios.get(`${BACKEND_URL}/lugares/${lugarId}`);
+        setNombre(res.data.nombre);
         setDesc(res.data.desc);
-        setCover(res.data.cover);
-        setPrice(res.data.price);
       } catch (err) {
         console.log(err);
       }
     };
-    getBook();
-  }, [bookId]);
+    getLugar();
+  }, [lugarId]);
 
   const handleClick = async (e) => {
     e.preventDefault();
-
     try {
       const book={
         id: params.id,
-        title: title,
+        nombre: nombre,
         desc: desc,
-        cover: cover,
-        price:price
     }
-      await axios.put(`${BACKEND_URL}/books/${bookId}`, book);
+      await axios.put(`${BACKEND_URL}/lugares/${lugarId}`, book);
       navigate("/");
-      Swal.fire("Book updated!", "", "success");
+      Swal.fire("Lugar actualizado!", "", "success");
 
     } catch (err) {
       console.log(err);
@@ -57,15 +50,18 @@ export default function Update() {
 
   return (
     <div className='form text-center container p-5'>
-      <h1 className="mb-3">Update a Book</h1>
+      <h1 className="mb-5">Actualizar lugar</h1>
       <form className="form-group">
-        <input className='form-control mb-3' type="text" placeholder='title' value={title} onChange={(e) => {setTitle(e.target.value)}} name='title'/>
-        <input className='form-control mb-3' type="text" placeholder='desc' value={desc} onChange={(e) => {setDesc(e.target.value)}} name='desc'/>
-        <input className='form-control mb-3' type="number" placeholder='price' value={price} onChange={(e) => {setPrice(e.target.value)}} name='price'/>
-        <input className='form-control mb-3' type="file" placeholder='cover' onChange={(e) => {setCover(e.target.value)}}  name='cover'/>
-        <button className="btn btn-success" onClick={handleClick}>Update</button>
+      <div className="form-floating mb-3">
+        <input className='form-control mb-3' id ="floatingInput" type="text" placeholder='nombre' value={nombre} onChange={(e) => {setNombre(e.target.value)}} name='nombre'/>
+        <label htmlFor="floatingInput">Nombre del lugar</label>
+      </div>
+      <div className="form-floating mb-3">
+        <input className='form-control mb-3' id ="floatingInput" type="text" placeholder='desc' value={desc} onChange={(e) => {setDesc(e.target.value)}} name='desc'/>
+        <label htmlFor="floatingInput">Descripción</label>
+      </div>
+        <button className="btn btn-outline-success" onClick={handleClick}>Actualizar</button>
       </form>
-      <Link to="/">See all books</Link>
     </div>
   );
 };

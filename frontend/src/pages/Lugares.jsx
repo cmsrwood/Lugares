@@ -42,23 +42,18 @@ export default function Lugares() {
       <Link to='/add'><button className='btn btn-outline-success'><i className='bi'></i>Añadir nuevo lugar</button></Link>
       <div className="row row-cols-1 row-cols-md-4 g-4 mt-5">
           {Lugares.map(lugar => (
-            
-              <div class="card" key={lugar.id}>
-                <div class="card-header">
-                  {lugar.nombre}
+              <div class="card text-center py-5" key={lugar.id}>
+                <div class="card-title">
+                  <img src={lugar.photos} width={288} className="card-img-top" alt="..."/>
+                  <h3> {lugar.nombre} </h3>
                 </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    <p>{lugar.desc}</p>  
-                    <Link target='_blank' to ={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary'>Ir</button></Link>
-                  </li>
-                  <li class="list-group-item">
-                    <Link className='btn btn-outline-warning me-3' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
-                    <Link className='btn btn-outline-danger' onClick={()=>handleDelete(lugar.id)}><i className='bi bi-trash'></i> </Link>
-                  </li>
-                </ul>
+                <p>{lugar.desc}</p>  
+                <Link target='_blank' to ={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary'>Ver lugar</button></Link>
+                <div className="row justify-content-around mt-4">
+                  <Link className='btn btn-outline-warning w-25' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
+                  <Link className='btn btn-outline-danger w-25' onClick={()=>handleDelete(lugar.id)}><i className='bi bi-trash'></i> </Link>
+                </div>
               </div>
-                  
           ))}
       </div>
       

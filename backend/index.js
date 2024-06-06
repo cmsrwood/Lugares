@@ -95,11 +95,10 @@ app.get("/lugares/:id",(req,res)=>{
 
 app.put("/lugares/:id",(req,res)=>{
     const lugarId = req.params.id
-    const q = "UPDATE lugares SET `nombre` = ?, `desc` = ?, `link` = ?  WHERE id = ?"
+    const q = "UPDATE lugares SET `nombre` = ?, `desc` = ? WHERE id = ?"
     const values = [
         req.body.nombre,
         req.body.desc,
-        req.body.link,
     ]
     db.query(q,[...values,lugarId],(err,data)=>{
         if(err){
