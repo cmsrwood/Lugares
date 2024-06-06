@@ -37,7 +37,7 @@ app.get("/lugares",(req,res)=>{
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../frontend/public/images')
+        cb(null, 'images')
     },
     filename: (req, file, cb) => {
         const name = req.body.nombre.replace(/ /g, '_');
