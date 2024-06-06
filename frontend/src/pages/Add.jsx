@@ -1,30 +1,30 @@
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import React from 'react'
 import Swal from 'sweetalert2'
 import {BACKEND_URL} from '../config.js'
 
 export default function Add() {
 
-
 const navigate = useNavigate()
 
-
 const handleClick = async (e) => {
+  e.preventDefault();
   try {
     const form = document.querySelector('form');
     const formData = new FormData(form);
-    await axios.post(`${BACKEND_URL}/lugares`, formData);
-    navigate('/')
+    await axios.post(`${BACKEND_URL}/lugares`,formData)
+    navigate("/")
+    Swal.fire("Lugar guardado!", "", "success");
+  } catch (err) {
     Swal.fire({
-      title: "Lugar añadido!",
-      text: "El lugar ha sido añadido",
-      icon: "success"
-    })
-  }catch (err) {
+      title: "Error",
+      text: "Ocurrio un error al anadir el lugar. Por favor, intenta de nuevo.",
+      icon: "error"
+    });
     console.log(err);
   }
-}
+};
 
 
   return (
