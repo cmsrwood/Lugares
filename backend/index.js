@@ -2,8 +2,50 @@ import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
 import multer from 'multer'
-import sharp from 'sharp'
+import uniquid from 'uniqid'
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const currentModuleUrl = import.meta.url;
+const currentModulePath = fileURLToPath(currentModuleUrl);
+const currentModuleDir = path.dirname(currentModulePath);
+
+const pathJSON = path.join(currentModuleDir, './images.json');
+
+const readJSON = () => {
+    let template = {
+        images:[]
+    };
+    try {
+        const data = fs.readFileSync(pathJSON, 'utf-8')
+        if (data.length === 0) {
+            return template
+        }
+        return JSON.parse(data)
+    } catch (err) {
+        fs.writeFileSync(pathJSON, JSON.stringify(template ,null , 4 ), 'utf-8')
+        return template
+    }
+}
+
+const writeJSON = (data) => {
+    const template = {
+        images : data,
+    }
+    try {
+        fs.writeFileSync(pathJSON, JSON.stringify (template ,null , 4 ), 'utf-8')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const {images} = readJSON()
+
+
+
+// 
 
 const app = express()
 
@@ -34,7 +76,7 @@ app.get("/lugares",(req,res)=>{
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './images')
+        cb(null, 'images')
     },
     filename: (req, file, cb) => {
         const name = req.body.nombre.replace(/ /g, '_');
@@ -49,11 +91,16 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
     const files = req.files;
     console.log('PHOTOS: ', files);
     console.log('LUGAR: ', req.body)
+    images.push({
+        "id" : uniquid(),
+        "names" : req.files.map(file => file.filename).toString(),
+    })
+    writeJSON(images)
     const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,
-        req.files ? req.files.map(file => file.filename).toString() : null
+        req.files ? req.files.map(file => file.filename).toString() : null,
     ]
     db.query(q,[values],(err,data)=>{
         if(err){
