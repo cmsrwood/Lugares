@@ -93,16 +93,16 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
     console.log('LUGAR: ', req.body)
     images.push({
         "id" : uniquid(),
-        "names" : req.files.map(file => file.filename).toString(),
+        "names" : req.files ? req.files.map(file => file.filename).toString() : null,
     })
     writeJSON(images)
     const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,
-        req.files ? req.files.map(file => file.filename).toString() : null,
+        req.files ? req.files.map(file => file.filename).toString() : null
     ]
-    db.query(q,[values],(err,data)=>{
+    db.query(q,[values],(err)=>{
         if(err){
             return res.json(err)
         }
