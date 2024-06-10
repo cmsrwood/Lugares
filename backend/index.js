@@ -96,6 +96,7 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
         "names" : req.files ? req.files.map(file => file.filename).toString() : null,
     })
     writeJSON(images)
+    console.log (images)
     const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
@@ -104,7 +105,7 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
     ]
     db.query(q,[values],(err)=>{
         if(err){
-            return res.json(err)
+            console.log(err)
         }
         return res.json("El lugar se ha creado correctamente")
     })
