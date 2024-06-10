@@ -76,7 +76,7 @@ app.get("/lugares",(req,res)=>{
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images')
+        cb(null, '../frontend/public/images')
     },
     filename: (req, file, cb) => {
         const name = req.body.nombre.replace(/ /g, '_');
@@ -91,17 +91,19 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
     const files = req.files;
     console.log('PHOTOS: ', files);
     console.log('LUGAR: ', req.body)
+    const id = uniquid();
+    const fecha = new Date();
     images.push({
-        "id" : uniquid(),
-        "names" : req.files ? req.files.map(file => file.filename).toString() : null,
+        "id" : id,
+        "photos" : req.files ? req.files.map(file => file.filename).toString() : null,
+        "fecha" : fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + " " + fecha.getHours() + ":" + fecha.getMinutes()
     })
     writeJSON(images)
-    console.log (images)
     const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
         req.body.desc,
-        req.files ? req.files.map(file => file.filename).toString() : null
+        id
     ]
     db.query(q,[values],(err)=>{
         if(err){
