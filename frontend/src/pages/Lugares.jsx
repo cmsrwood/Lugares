@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import {BACKEND_URL} from '../config.js'
+import {BACKEND_URL, FRONTEND_URL} from '../config.js'
 
 
 export default function Lugares() {
@@ -17,7 +17,7 @@ export default function Lugares() {
         const res= await axios.get(`${BACKEND_URL}/lugares`)
         setLugares(res.data)
       }catch(err){
-        
+        console.log(err)
       }
     }
     fetchAllBooks()
@@ -42,11 +42,11 @@ export default function Lugares() {
       <Link to='/add'><button className='btn btn-outline-success shadow'><i className='bi'></i>Añadir nuevo lugar</button></Link>
       <div className="row row-cols-1 row-cols-md-4 g-4 mt-5">
           {Lugares.map(lugar => (
-            <div class="col">
-              <div class="card text-center shadow-lg mb-3" key={lugar.id}>
-                <img src={`http://localhost:3000/images/${lugar.photos}`} className=" card-img-top " alt="..."/>
-                <div class="card-body ">
-                <div class="card-title">
+            <div className="col" key={lugar.id}>
+              <div className="card text-center shadow-lg mb-3" >
+                <img src={`${FRONTEND_URL}/images/${lugar.photos}`} className=" card-img-top " alt="..."/>
+                <div className="card-body ">
+                <div className="card-title">
                   <h3> {lugar.nombre} </h3>
                 </div>
                   <p>{lugar.desc}</p>  

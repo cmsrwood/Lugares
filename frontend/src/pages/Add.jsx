@@ -31,13 +31,13 @@ const handleClick = async (e) => {
     <div className='form text-center container p-5'>
       <h1 className='text-center'>Añade un nuevo lugar</h1>
       <form id='form' className='form-group p-5' encType='multipart/form-data' onSubmit={handleClick} >
-      <div class="mb-3">
+      <div className="mb-3">
         <input className='form-control' type="text" autoComplete='off' placeholder='Nombre' name='nombre' required/>
       </div>
-      <div class="mb-3">
+      <div className="mb-3">
         <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion'  name='desc' required/>
       </div>
-      <div class="mb-3">
+      <div className="mb-3">
         <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' name='photos' required/>
       </div>
         <button className='btn btn-outline-success' type='submit'>Añadir</button>

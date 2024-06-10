@@ -3,7 +3,6 @@ import mysql from 'mysql'
 import cors from 'cors'
 import multer from 'multer'
 import sharp from 'sharp'
-
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
 
 const app = express()
@@ -17,8 +16,6 @@ const db = mysql.createConnection({
 
 app.use(express.json())
 app.use(cors())
-
-
 
 
 app.get("/",(req,res)=>{
@@ -37,7 +34,7 @@ app.get("/lugares",(req,res)=>{
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images')
+        cb(null, './images')
     },
     filename: (req, file, cb) => {
         const name = req.body.nombre.replace(/ /g, '_');
