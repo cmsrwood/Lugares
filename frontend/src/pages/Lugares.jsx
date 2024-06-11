@@ -4,18 +4,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import {BACKEND_URL, FRONTEND_URL} from '../config.js'
 
-
-
-
 export default function Lugares() {
-const {images} = readJSON()
-
-const localizarUbicacion = (idPhotos) => {
-  return images.filter(
-    (ubicacion) => ubicacion.id === idPhotos,
-  )[0] || {};
-} 
-
 
   const navigate = useNavigate()
 
@@ -55,8 +44,7 @@ const localizarUbicacion = (idPhotos) => {
           {Lugares.map(lugar => (
             <div className="col" key={lugar.id}>
               <div className="card text-center shadow-lg mb-3" >
-                {console.log (lugar.photos)}
-                <img src={`${FRONTEND_URL}/images/${lugar.photos}`} className=" card-img-top " alt="..."/>
+                <img src={`${FRONTEND_URL}/images/${lugar.photo}`} className=" card-img-top " alt="..."/>
                 <div className="card-body ">
                 <div className="card-title">
                   <h3> {lugar.nombre} </h3>
