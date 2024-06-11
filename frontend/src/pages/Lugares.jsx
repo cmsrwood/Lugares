@@ -5,7 +5,17 @@ import Swal from 'sweetalert2'
 import {BACKEND_URL, FRONTEND_URL} from '../config.js'
 
 
+
+
 export default function Lugares() {
+const {images} = readJSON()
+
+const localizarUbicacion = (idPhotos) => {
+  return images.filter(
+    (ubicacion) => ubicacion.id === idPhotos,
+  )[0] || {};
+} 
+
 
   const navigate = useNavigate()
 
@@ -45,12 +55,13 @@ export default function Lugares() {
           {Lugares.map(lugar => (
             <div className="col" key={lugar.id}>
               <div className="card text-center shadow-lg mb-3" >
+                {console.log (lugar.photos)}
                 <img src={`${FRONTEND_URL}/images/${lugar.photos}`} className=" card-img-top " alt="..."/>
                 <div className="card-body ">
                 <div className="card-title">
                   <h3> {lugar.nombre} </h3>
                 </div>
-                  <p>{lugar.desc}</p>  
+                  <p>{lugar.desco}</p>  
                   <Link target='_blank' to ={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary shadow'>Ver lugar</button></Link>
                   <div className="row justify-content-around mt-4">
                     <Link className='btn btn-outline-warning w-25 shadow' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>

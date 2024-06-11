@@ -35,7 +35,7 @@ const handleClick = async (e) => {
         <input className='form-control' type="text" autoComplete='off' placeholder='Nombre' name='nombre' required/>
       </div>
       <div className="mb-3">
-        <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion'  name='desc' required/>
+        <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion'  name='desco' required/>
       </div>
       <div className="mb-3">
         <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' name='photos' required/>

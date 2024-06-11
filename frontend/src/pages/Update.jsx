@@ -14,7 +14,7 @@ export default function Update() {
 
   // Hooks
   const [nombre, setNombre]=useState('')
-  const [desc, setDesc]=useState('')
+  const [desco, setDesc]=useState('')
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export default function Update() {
       try {
         const res = await axios.get(`${BACKEND_URL}/lugares/${lugarId}`);
         setNombre(res.data.nombre);
-        setDesc(res.data.desc);
+        setDesc(res.data.desco);
       } catch (err) {
         console.log(err);
       }
@@ -37,7 +37,7 @@ export default function Update() {
       const book={
         id: params.id,
         nombre: nombre,
-        desc: desc,
+        desco: desco,
     }
       await axios.put(`${BACKEND_URL}/lugares/${lugarId}`, book);
       navigate("/");
@@ -57,7 +57,7 @@ export default function Update() {
         <label htmlFor="floatingInput">Nombre del lugar</label>
       </div>
       <div className="form-floating mb-3">
-        <input className='form-control mb-3' id ="floatingInput" type="text" placeholder='desc' value={desc} onChange={(e) => {setDesc(e.target.value)}} name='desc'/>
+        <input className='form-control mb-3' id ="floatingInput" type="text" placeholder='desco' value={desco} onChange={(e) => {setDesc(e.target.value)}} name='desco'/>
         <label htmlFor="floatingInput">Descripción</label>
       </div>
         <button className="btn btn-outline-success" onClick={handleClick}>Actualizar</button>

@@ -43,10 +43,6 @@ const writeJSON = (data) => {
 
 const {images} = readJSON()
 
-
-
-// 
-
 const app = express()
 
 const db = mysql.createConnection({
@@ -99,10 +95,10 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
         "fecha" : fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + " " + fecha.getHours() + ":" + fecha.getMinutes()
     })
     writeJSON(images)
-    const q = "INSERT INTO lugares (`nombre`,`desc`, `photos`) VALUES (?)"
+    const q = "INSERT INTO lugares (`nombre`,`desco`, `photos`) VALUES (?)"
     const values = [
         req.body.nombre,
-        req.body.desc,
+        req.body.desco,
         id
     ]
     db.query(q,[values],(err)=>{
@@ -142,10 +138,10 @@ app.get("/lugares/:id",(req,res)=>{
 
 app.put("/lugares/:id",(req,res)=>{
     const lugarId = req.params.id
-    const q = "UPDATE lugares SET `nombre` = ?, `desc` = ? WHERE id = ?"
+    const q = "UPDATE lugares SET `nombre` = ?, `desco` = ? WHERE id = ?"
     const values = [
         req.body.nombre,
-        req.body.desc,
+        req.body.desco,
     ]
     db.query(q,[...values,lugarId],(err,data)=>{
         if(err){
