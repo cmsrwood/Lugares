@@ -38,7 +38,7 @@ const handleClick = async (e) => {
         <input className='form-control' type="text" autoComplete='off' placeholder='Descripcion'  name='desco' required/>
       </div>
       <div className="mb-3">
-        <input className='form-control' type="file" multiple accept='image/*' autoComplete='off' id ='photos' name='photos' required/>
+        <input className='form-control' type="file"accept='image/*' autoComplete='off' id ='photo' name='photo' required/>
       </div>
         <button className='btn btn-outline-success' type='submit'>Añadir</button>
         <Link to='/' className='btn btn-outline-danger ms-3'>Cancelar</Link>

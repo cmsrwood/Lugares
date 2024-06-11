@@ -44,7 +44,7 @@ export default function Lugares() {
           {Lugares.map(lugar => (
             <div className="col" key={lugar.id}>
               <div className="card text-center shadow-lg mb-3" >
-                <img src={`${FRONTEND_URL}/images/${lugar.photo}`} className=" card-img-top " alt="..."/>
+                <img src={`${FRONTEND_URL}/images/${lugar.photo}`} className="card-img-top" alt="..." />  
                 <div className="card-body ">
                 <div className="card-title">
                   <h3> {lugar.nombre} </h3>

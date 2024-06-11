@@ -3,45 +3,8 @@ import mysql from 'mysql'
 import cors from 'cors'
 import multer from 'multer'
 import uniquid from 'uniqid'
+import fs from 'fs'
 import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const currentModuleUrl = import.meta.url;
-const currentModulePath = fileURLToPath(currentModuleUrl);
-const currentModuleDir = path.dirname(currentModulePath);
-
-const pathJSON = path.join(currentModuleDir, './images.json');
-
-const readJSON = () => {
-    let template = {
-        images:[]
-    };
-    try {
-        const data = fs.readFileSync(pathJSON, 'utf-8')
-        if (data.length === 0) {
-            return template
-        }
-        return JSON.parse(data)
-    } catch (err) {
-        fs.writeFileSync(pathJSON, JSON.stringify(template ,null , 4 ), 'utf-8')
-        return template
-    }
-}
-
-const writeJSON = (data) => {
-    const template = {
-        images : data,
-    }
-    try {
-        fs.writeFileSync(pathJSON, JSON.stringify (template ,null , 4 ), 'utf-8')
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const {images} = readJSON()
 
 const app = express()
 
@@ -51,6 +14,14 @@ const db = mysql.createConnection({
     password : DB_PASS,
     database : DB_DATABASE
 })
+
+function eliminar (image) {
+    fs.unlink(`../frontend/public/images/${image}`, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
 
 app.use(express.json())
 app.use(cors())
@@ -83,23 +54,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
-app.post('/lugares', upload.array('photos'), (req, res) => {
-    const files = req.files;
-    console.log('PHOTOS: ', files);
+app.post('/lugares', upload.single('photo'), (req, res) => {
+    const file = req.file;
+    console.log('PHOTOS: ', file);
     console.log('LUGAR: ', req.body)
-    const id = uniquid();
-    const fecha = new Date();
-    images.push({
-        "id" : id,
-        "photos" : req.files ? req.files.map(file => file.filename).toString() : null,
-        "fecha" : fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + " " + fecha.getHours() + ":" + fecha.getMinutes()
-    })
-    writeJSON(images)
-    const q = "INSERT INTO lugares (`nombre`,`desco`, `photos`) VALUES (?)"
+    const q = "INSERT INTO lugares ( `id`, `nombre`,`desco`, `photo`) VALUES (?)"
     const values = [
+        uniquid(),
         req.body.nombre,
         req.body.desco,
-        id
+        file.filename.toString()
     ]
     db.query(q,[values],(err)=>{
         if(err){
@@ -114,8 +78,9 @@ app.post('/lugares', upload.array('photos'), (req, res) => {
 
 app.delete("/lugares/:id",(req,res)=>{
     const lugarId = req.params.id
+    const imagen = req.body.photo
+    eliminar(imagen)
     const q = "DELETE FROM lugares WHERE id = ?"
-
     db.query(q,[lugarId],(err,data)=>{
         if(err){
             return res.json(err)
