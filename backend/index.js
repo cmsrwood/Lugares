@@ -78,8 +78,14 @@ app.post('/lugares', upload.single('photo'), (req, res) => {
 
 app.delete("/lugares/:id",(req,res)=>{
     const lugarId = req.params.id
-    const imagen = req.body.photo
-    eliminar(imagen)
+    const qimagen = "SELECT photo FROM lugares WHERE id = ?"
+    db.query(qimagen,[lugarId],(err,data)=>{
+        if(err){
+            return res.json(err)
+        }
+        const imagen = data[0].photo
+        eliminar(imagen)
+    })
     const q = "DELETE FROM lugares WHERE id = ?"
     db.query(q,[lugarId],(err,data)=>{
         if(err){
