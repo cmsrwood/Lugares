@@ -1,19 +1,26 @@
-import express from 'express'
-import mysql from 'mysql'
-import cors from 'cors'
-import multer from 'multer'
-import uniquid from 'uniqid'
-import fs from 'fs'
-import { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } from "./config.js"
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
+const multer = require('multer');
+const uniquid = require('uniqid');
+const session = require('express-session');
+const fs = require('fs');
+const { BACKEND_PORT, DB_HOST, DB_USER, DB_PASS, DB_DATABASE, FRONTEND_URL } = require("./config.js");
+const MySQLStore = require('express-mysql-session') (session);
+
+const options = {
+    host: DB_HOST,
+    port: 3306,
+    user: DB_USER,
+    password: DB_PASS,
+    database: DB_DATABASE
+}
+
+const sessionStore = new MySQLStore(options)
 
 const app = express()
 
-const db = mysql.createConnection({
-    host : DB_HOST,
-    user : DB_USER,
-    password : DB_PASS,
-    database : DB_DATABASE
-})
+const db = mysql.createConnection(options)
 
 function eliminar (image) {
     fs.unlink(`../frontend/public/images/${image}`, (err) => {
@@ -25,10 +32,21 @@ function eliminar (image) {
 
 app.use(express.json())
 app.use(cors())
+app.use (session ({
+    key : 'cookie_usuario',
+    secret: '123',
+    store: sessionStore,
+    resave : false,
+    saveUninitialized : false,
+}))
 
 
 app.get("/",(req,res)=>{
-    res.json("Hello World from backend") 
+    req.session.usuario = 'Juan Perez';
+    req.session.rol = 'admin';
+    req.session.visitas = req.session.visitas ? req.session.visitas + 1 : 1;
+    console.log(req.session)
+    res.send(`El usuario ${req.session.usuario} con el rol ${req.session.rol} ha visitado el sitio ${req.session.visitas} veces`)
 })
 
 app.get("/lugares",(req,res)=>{
