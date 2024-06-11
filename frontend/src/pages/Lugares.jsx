@@ -50,8 +50,9 @@ export default function Lugares() {
                   <h3> {lugar.nombre} </h3>
                 </div>
                 <p>{lugar.desco}</p>
-                <Link target='_blank' to={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary shadow'>Ver lugar</button></Link>
+                <Link target='_blank' to={`https://www.google.com/maps/search/${lugar.nombre}/@4.6514554,-74.2000918,11.25z?entry=ttu`}><button className='btn btn-outline-primary shadow'><i className="bi bi-geo-alt-fill"></i></button></Link>
                 <div className="row justify-content-around mt-4">
+                  <Link className='btn btn-outline-success w-25 shadow' to={`/lugar/${lugar.id}`}><i className="bi bi-eye"></i></Link>
                   <Link className='btn btn-outline-warning w-25 shadow' to={`/update/${lugar.id}`}><i className="bi bi-pencil-square"></i></Link>
                   <Link className='btn btn-outline-danger w-25 shadow' onClick={() => handleDelete(lugar.id)}><i className='bi bi-trash'></i> </Link>
                 </div>
